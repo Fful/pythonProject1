@@ -1,0 +1,169 @@
+print('программа деления двух чисел а1/а2')
+try:
+    a = int(input('введите число а1 = '))
+    b = int(input('введите чилсо а2 = '))
+    print(a/b)
+except ZeroDivisionError:
+    print('с дубу рухнул, кто ж на 0 делит то')
+except ValueError:
+    print('а калькулятор то говна е6аного , целые числа только может делить')
+finally:
+    pass
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# x = {"a": 123, "b": 213, "c": 3123}
+y = 1001
+# assert y <= 1000, "число больше 1000"
+
+
+class ValueToLarge(Exception):
+    pass
+
+
+if y >= 1001:
+    raise ValueToLarge(f'число {y} вышло за допустимый диапазон')
+else:
+    print("ваше число меньше 1000")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Car:
+    wheels = 4
+
+    def __init__(self, color, year):
+        self.color = color
+        self.year = year
+        self._holders = 2
+
+    @ property
+    def holders(self):
+        return self._holders
+
+    @ holders.setter
+    def holders(self, amount_change):
+        print("количесвто владельцев изменено")
+        self._holders = amount_change
+
+    @ holders.deleter
+    def holders(self):
+        print("вы согласились НАПИЗДЕТЬ и удалить количество владельцев")
+        del self._holders
+
+main.py
+
+import car
+
+car1 = car.Car('yellow', 1999)
+car2 = car.Car('blue', 2002)
+car3 = car.Car('radhotchily', 2222)
+
+print(f'car property:\tцвет:{car1.color}\t год:{car1.year}\t все любят колеса:{car1.wheels}')
+print(f'car property:\tцвет:{car2.color}\t год:{car2.year}\t все любят колеса:{car2.wheels}')
+print('подмена понятий')
+car1.wheels = 5
+car.Car.wheels = 3
+print(f'car property:\tцвет:{car1.color}\t год:{car1.year}\t все любят колеса:{car1.wheels}')
+print(f'car property:\tцвет:{car2.color}\t год:{car2.year}\t все любят колеса:{car2.wheels}')
+
+print('подмена понятий 2')
+car.Car.wheels = 3.3
+car1.wheels = 5.5
+print(f'car property:\tцвет:{car1.color}\t год:{car1.year}\t все любят колеса:{car1.wheels}')
+print(f'car property:\tцвет:{car2.color}\t год:{car2.year}\t все любят колеса:{car2.wheels}')
+
+print(car1.holders)
+car1.holders += 1
+print(car1.holders)
+del car1.holders
+try:
+    print(car1.holders)
+except AttributeError:
+    print("ну и нахуйя ты удалил год машины??")
+finally:
+    print(car2.holders)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class Circle:
+    pi = 3.1415
+    counter = []
+
+    def __init__(self, radius=1):
+        self.radius = radius
+        self.__class__.counter.append(self)
+
+    def length(self):
+        return self.__class__.pi * self.radius * 2
+
+    @staticmethod
+    def full_length():
+        sum_l = 0
+        for num in Circle.counter:
+            sum_l += num.length()
+        return sum_l
+
+    @classmethod
+    def full_length_class(cls):
+        sum_l = 0
+        for num in cls.counter:
+            sum_l += num.length()
+        return sum_l
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import re
+
+
+def add_code(obj):
+    return '+1-' + obj.group('num')
+
+
+example = re.compile(r'(?P<last>[а-яА-Я-]+),'
+                     r' (?P<first>[а-яА-Я-]+)'
+                     r'( (?P<dad>[а-яА-Я-]+))?'
+                     r': (?P<num>(\+\d{1,3}-)?\d{3}-\d{4})'
+                     )
+with open('test.txt', 'r', encoding='utf-8') as file:
+    for line in file.readlines():
+        result = example.search(line)
+        if result:
+            lastname = result.group('last')
+            firstname = result.group('first')
+            dadname = result.group('dad')
+            if dadname == None:
+                dadname = ''
+            number = result.group('num')
+            if not re.match(r'\+\d+', number):
+                number = re.sub(r'(?P<num>([^\+]))', add_code, number, count=1)
+            print(f'Name: {firstname} {dadname} {lastname} Number:{number}')
+        else:
+            print('синтаксическая ошибка, я проверяю мусор')
+
+                                text.txt:
+
+                                Ермолавев, Герман Вячеславович: +375-788-8888
+                                Ермолавева, Ангелина: 611-8888
+                                41па0щла130ла1=3ла1щпоъ3плуъуйуплйупмусорасооумрусомурсомурсомурмсу
+                                Зубенко, Михайил Петрович: +75-518-8138
+                                Зубенкин, Михайил Петрович: +5-518-8138
+                                12, Миша: 2412-21412
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Жалкие попытки сделать задание от егорки
+
+import pyperclip
+import re
+
+string = ''
+pattern_phone = re.compile(r'(\+\d{3}-?(\d{2}-)?\d{3}-?\d{2}-?\d{2})')
+pattern_mail = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+
+# string2 = pyperclip.paste()
+string2 = '888-88-88\n erhwrfikbdmfjbk;slvdsv\n +213-24-125-25-25\nrwgvsfe3@gmail.com\n efqefqefqevggdgdadg'
+print(re.findall(pattern_mail, string2))
+print(re.findall(pattern_phone, string2))
+print(pattern_mail.findall(string2))
+print(pattern_phone.findall(string2))
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
