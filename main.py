@@ -34,4 +34,12 @@ class TypedList:
             result += str(element) + ' '
         return result
 
+    def exclude(self, item):
+        try:
+            while self.elements.index(item) is not None:
+                self.__delitem__(self.elements.index(item))
+        except ValueError:
+            print(f'elements: {item}, are excluded from the list')
+
+
 
